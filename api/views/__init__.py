@@ -1,3 +1,3 @@
-from .user_mgt import *
-from .user_auth import *
+from .booking import *
+from .users import *
 from .property import *

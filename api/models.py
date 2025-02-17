@@ -5,20 +5,16 @@ def generate_id():
     return str(uuid.uuid4())
 
 class Users(models.Model):
-    user_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    user_id = models.UUIDField(default=uuid.uuid4, editable=False)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
-    
     ROLE_CHOICES = [
         ('host', 'Host'),
         ('renter', 'Renter'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-    
-    phone = models.CharField(max_length=15)
-    email = models.EmailField(max_length=254, unique=True, null=True, blank=True)
-    photo_url = models.URLField(max_length=500, null=True, blank=True)
-    
+    phone = models.CharField(max_length=15, unique=True, null=True, blank=True,)
+    email = models.EmailField(max_length=254, unique=True, primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -29,25 +25,20 @@ class Properties(models.Model):
     property_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    photo_url = models.URLField(max_length=500, null=True, blank=True)
-
+    photo_urls = models.JSONField(default=list, blank=True)
     host = models.ForeignKey(Users, on_delete=models.PROTECT, related_name="properties")
-
     STATUS_CHOICES = [
         ('booked', 'Booked'),
         ('available', 'Available'),
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
-
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=3.0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     rooms = models.PositiveIntegerField()
-
     province = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
     sector = models.CharField(max_length=50)
     furnished = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -7,14 +7,14 @@ from ..serializer import PropertySerializer
 from ..utils import CustomTokenAuthentication
 from rest_framework.permissions import AllowAny
 
-#{"title": "Test Thread", "description":"To test"}
+#{"title": "Test property", "description":"To test"}
 
 @api_view(["GET", "POST"])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([AllowAny])
-def manage_thread(request):
-    threads = Properties.objects.all()
-    serializer = PropertySerializer(threads, many=True)
+def manage_property(request):
+    properties = Properties.objects.all()
+    serializer = PropertySerializer(properties, many=True)
     if request.method == 'GET':
         return Response(serializer.data)
     if request.method == 'POST':
@@ -28,18 +28,18 @@ def manage_thread(request):
 @api_view(["GET", "PUT", "DELETE"])
 @authentication_classes([CustomTokenAuthentication])
 @permission_classes([AllowAny])
-def thread_detail(request, pk):
+def property_detail(request, pk):
     try:
-        thread = Properties.objects.get(pk=pk)
-        thread_information = PropertySerializer(thread)
+        property = Properties.objects.get(pk=pk)
+        property_information = PropertySerializer(property)
     except Properties.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        return Response(thread_information.data)
+        return Response(property_information.data)
     
     if request.method == 'PUT':
-        serializer = PropertySerializer(thread, data=thread_information.data|request.data)
+        serializer = PropertySerializer(property, data=property_information.data|request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
