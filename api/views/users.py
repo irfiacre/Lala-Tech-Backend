@@ -11,20 +11,21 @@ from rest_framework.decorators import api_view
 
 @api_view(["POST"])
 def register_user_view(request):
+    result = None
     try:
         serializer = UsersSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+            result = serializer.data
     except Exception as err:
         return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(result, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
 def find_user_view(request, pk):
     try:
-        result = Users.objects.get(user_id=pk)
+        result = Users.objects.get(email=pk)
         user_info = UsersSerializer(result)
     except user_info.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)

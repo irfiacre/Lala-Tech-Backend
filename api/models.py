@@ -5,7 +5,7 @@ def generate_id():
     return str(uuid.uuid4())
 
 class Users(models.Model):
-    user_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    user_id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=100)
     ROLE_CHOICES = [
@@ -13,8 +13,8 @@ class Users(models.Model):
         ('renter', 'Renter'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-    phone = models.CharField(max_length=15, unique=True, null=True, blank=True,)
-    email = models.EmailField(max_length=254, unique=True, primary_key=True)
+    phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    email = models.EmailField(max_length=254, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
