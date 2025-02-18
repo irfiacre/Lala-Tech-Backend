@@ -13,6 +13,10 @@ from rest_framework.decorators import api_view
 def register_user_view(request):
     result = None
     try:
+        result = Users.objects.filter(email=request.data["email"])
+        user_info = UsersSerializer(result, many=True)
+        if user_info.data:
+            return Response(user_info.data, status=status.HTTP_200_OK)
         serializer = UsersSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
