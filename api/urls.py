@@ -12,4 +12,5 @@ urlpatterns=[
     path('properties/user/<str:userId>/', property.get_host_properties, name="get_host_properties"),
     path('bookings/', booking.manage_booking, name="manage_booking"),
     path('bookings/<str:pk>/', booking.booking_detail, name="booking_detail"),
+    path('bookings/user/<str:userId>/', booking.get_user_bookings, name="get_host_bookings"),
 ]

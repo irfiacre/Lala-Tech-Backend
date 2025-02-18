@@ -14,9 +14,15 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BookingSerializer(serializers.ModelSerializer):
-    user = UsersSerializer(read_only=True)
-    property = PropertySerializer(read_only=True)
+    property = serializers.SlugRelatedField(queryset=Properties.objects.all(), slug_field="property_id")
+    user = serializers.SlugRelatedField(queryset=Users.objects.all(), slug_field="user_id")
 
     class Meta:
         model = Booking
         fields = '__all__'
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["property"] = PropertySerializer(instance.property).data
+        representation["user"] = UsersSerializer(instance.user).data
+        return representation
