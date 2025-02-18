@@ -15,6 +15,7 @@ class Users(models.Model):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     phone = models.CharField(max_length=15, unique=True, null=True, blank=True)
     email = models.EmailField(max_length=254, unique=True)
+    photo_url = models.URLField(max_length=500, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

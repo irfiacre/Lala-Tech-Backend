@@ -2,16 +2,15 @@ from rest_framework import serializers
 from .models import Users, Properties, Booking
 
 
-class PropertySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Properties
-        fields = '__all__'
-
 class UsersSerializer(serializers.ModelSerializer):
-    properties = PropertySerializer(many=True, read_only=True)  # Fetch related properties
-
     class Meta:
         model = Users
+        fields = '__all__'
+
+class PropertySerializer(serializers.ModelSerializer):
+    host = UsersSerializer()
+    class Meta:
+        model = Properties
         fields = '__all__'
 
 class BookingSerializer(serializers.ModelSerializer):
