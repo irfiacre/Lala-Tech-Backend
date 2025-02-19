@@ -8,7 +8,9 @@ class UsersSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PropertySerializer(serializers.ModelSerializer):
-    host = UsersSerializer()
+    host = serializers.PrimaryKeyRelatedField(queryset=Users.objects.all(), write_only=True)
+    host_details = UsersSerializer(source="host", read_only=True) 
+    # host = UsersSerializer()
     class Meta:
         model = Properties
         fields = '__all__'
