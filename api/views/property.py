@@ -38,7 +38,7 @@ def property_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'DELETE':
         property.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Property Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(["GET"])
 def get_host_properties(request, userId):
