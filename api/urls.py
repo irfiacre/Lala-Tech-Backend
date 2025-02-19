@@ -1,8 +1,6 @@
 from django.urls import path
 
-from .views import users
-from .views import property
-from .views import  booking
+from api.views import users, property, booking, analytics
 
 urlpatterns=[
     path('users/register/', users.register_user_view, name="register_user"),
@@ -13,4 +11,5 @@ urlpatterns=[
     path('bookings/', booking.manage_booking, name="manage_booking"),
     path('bookings/<str:pk>/', booking.booking_detail, name="booking_detail"),
     path('bookings/user/<str:userId>/', booking.get_user_bookings, name="get_host_bookings"),
+    path('analytics/<str:user_id>', analytics.analytics, name="analytics"),
 ]
