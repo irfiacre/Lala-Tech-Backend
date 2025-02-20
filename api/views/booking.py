@@ -60,6 +60,8 @@ def user_property_booking_detail(request, propertyId, userId):
         if userId and propertyId:
             booking = Booking.objects.filter(property_id=propertyId, user_id=userId).first()
             booking_information = BookingSerializer(booking)
+            if not booking_information.data['user']:
+                return Response(status=status.HTTP_404_NOT_FOUND)
             return Response(booking_information.data, status=status.HTTP_200_OK)
     except Booking.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
