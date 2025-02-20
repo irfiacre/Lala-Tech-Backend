@@ -9,7 +9,8 @@ urlpatterns=[
     path('properties/<str:pk>/', property.property_detail, name="property_detail"),
     path('properties/user/<str:userId>/', property.get_host_properties, name="get_host_properties"),
     path('bookings/', booking.manage_booking, name="manage_booking"),
-    path('bookings/<str:pk>/', booking.booking_detail, name="booking_detail"),
-    path('bookings/user/<str:userId>/', booking.get_user_bookings, name="get_host_bookings"),
+    path('bookings/user/<str:userId>/property/<str:propertyId>/', booking.user_property_booking_detail, name="user_property_booking_detail"),
+    path('bookings/<str:bookingId>/', booking.booking_detail, name="booking_detail"),
+    path('bookings/users/<str:userId>/', booking.get_user_bookings, name="get_host_bookings"),
     path('analytics/<str:user_id>', analytics.analytics, name="analytics"),
 ]

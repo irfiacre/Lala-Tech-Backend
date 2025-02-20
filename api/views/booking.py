@@ -28,9 +28,9 @@ def manage_booking(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET", "PATCH", "DELETE"])
-def booking_detail(request, pk):
+def booking_detail(request, bookingId):
     try:
-        booking = Booking.objects.get(pk=pk)
+        booking = Booking.objects.get(pk=bookingId)
         booking_information = BookingSerializer(booking)
     except Booking.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -52,5 +52,14 @@ def booking_detail(request, pk):
 def get_user_bookings(request, userId):
     user_bookings = Booking.objects.filter(host__user_id=userId)
     serializer = BookingSerializer(user_bookings, many=True)
-    if request.method == 'GET':
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+def user_property_booking_detail(request, propertyId, userId):
+    try:
+        if userId and propertyId:
+            booking = Booking.objects.filter(property_id=propertyId, user_id=userId).first()
+            booking_information = BookingSerializer(booking)
+            return Response(booking_information.data, status=status.HTTP_200_OK)
+    except Booking.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
